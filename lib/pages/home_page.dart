@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:homestay/models/guidance.dart';
 import 'package:homestay/models/house.dart';
 import 'package:homestay/models/space.dart';
 import 'package:homestay/theme.dart';
+import 'package:homestay/widgets/guidance_card.dart';
 import 'package:homestay/widgets/house_card.dart';
 import 'package:homestay/widgets/space_card.dart';
 
@@ -121,7 +123,38 @@ class HomePage extends StatelessWidget {
                     ),
                   ],
                 ),
-              )
+              ),
+              const SizedBox(height: 30),
+              Padding(
+                padding: EdgeInsets.only(left: edge),
+                child: Text(
+                  'Tips and Guidance',
+                  style: regularTextStyle.copyWith(fontSize: 16),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: edge),
+                child: Column(
+                  children: [
+                    GuidanceCard(
+                      Guidance(
+                          id: 1,
+                          title: 'Homestay Tips',
+                          imageUrl: 'assets/tips-1.png',
+                          updatedAt: '17 Dec 2023'),
+                    ),
+                    SizedBox(height: 20),
+                    GuidanceCard(
+                      Guidance(
+                          id: 2,
+                          title: 'Homestay Guidelines',
+                          imageUrl: 'assets/guidelines-1.png',
+                          updatedAt: '16 Dec 2023'),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
