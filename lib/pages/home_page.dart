@@ -1,19 +1,27 @@
+// ignore_for_file: sized_box_for_whitespace
+
 import 'package:flutter/material.dart';
 import 'package:homestay/models/guidance.dart';
 import 'package:homestay/models/house.dart';
 import 'package:homestay/models/space.dart';
+import 'package:homestay/providers/space_provider.dart';
 import 'package:homestay/theme.dart';
-import 'package:homestay/widgets/bottom,_navbar_item.dart';
+import 'package:homestay/widgets/bottom_navbar_item.dart';
 import 'package:homestay/widgets/guidance_card.dart';
 import 'package:homestay/widgets/house_card.dart';
 import 'package:homestay/widgets/space_card.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    var spaceProvider = Provider.of<SpaceProvider>(context);
+    spaceProvider.getRecommendedSpaces();
+
     return Scaffold(
+      backgroundColor: whiteColor,
       body: SafeArea(
         bottom: false,
         child: ListView(
@@ -66,6 +74,25 @@ class HomePage extends StatelessWidget {
                         imageUrl: 'assets/house-3.png',
                         isFavorite: true),
                   ),
+                  const SizedBox(width: 20),
+                  HouseCard(
+                    House(
+                        id: 4, name: 'Makasar', imageUrl: 'assets/house-4.png'),
+                  ),
+                  const SizedBox(width: 20),
+                  HouseCard(
+                    House(
+                        id: 5,
+                        name: 'Semarang',
+                        imageUrl: 'assets/house-5.png'),
+                  ),
+                  const SizedBox(width: 20),
+                  HouseCard(
+                    House(
+                        id: 6,
+                        name: 'Sulawesi',
+                        imageUrl: 'assets/house-6.png'),
+                  ),
                   const SizedBox(width: 24),
                 ],
               ),
@@ -81,41 +108,28 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 16),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: edge),
-              child: Column(
-                children: [
-                  SpaceCard(
-                    Space(
-                        id: 1,
-                        name: 'Living Space',
-                        imageUrl: 'assets/space-1.png',
-                        price: 1000,
-                        city: 'Jakarta',
-                        country: 'Tanjung Barat',
-                        rating: 4),
-                  ),
-                  const SizedBox(height: 30),
-                  SpaceCard(
-                    Space(
-                        id: 2,
-                        name: 'Indoor Pool',
-                        imageUrl: 'assets/space-2.png',
-                        price: 4500,
-                        city: 'Bandung',
-                        country: 'Dago Ujung',
-                        rating: 5),
-                  ),
-                  const SizedBox(height: 30),
-                  SpaceCard(
-                    Space(
-                        id: 3,
-                        name: 'Kitchen Space',
-                        imageUrl: 'assets/space-3.png',
-                        price: 3580,
-                        city: 'Denpasar',
-                        country: 'Ubud Atas',
-                        rating: 5),
-                  ),
-                ],
+              child: FutureBuilder(
+                future: spaceProvider.getRecommendedSpaces(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    List<Space> data = snapshot.data as List<Space>;
+                    int index = 0;
+                    return Column(
+                      children: data.map((item) {
+                        index++;
+                        return Container(
+                          margin: EdgeInsets.only(
+                            top: index == 1 ? 0 : 30,
+                          ),
+                          child: SpaceCard(item),
+                        );
+                      }).toList(),
+                    );
+                  }
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
               ),
             ),
             const SizedBox(height: 30),
@@ -128,7 +142,7 @@ class HomePage extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: edge),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Column(
                 children: [
                   GuidanceCard(

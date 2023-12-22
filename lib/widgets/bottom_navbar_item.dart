@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:homestay/theme.dart';
 
 class BottomNavbarItem extends StatelessWidget {
-  final IconData icons;
+  final IconData? icons;
   final bool isActive;
 
-  const BottomNavbarItem(
-      {super.key, required this.icons, this.isActive = false});
+  const BottomNavbarItem({
+    super.key,
+    this.icons,
+    this.isActive = false,
+  });
 
   @override
   Widget build(BuildContext context) {

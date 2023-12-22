@@ -14,7 +14,7 @@ class GuidanceCard extends StatelessWidget {
           guidance.imageUrl,
           width: 80,
         ),
-        const SizedBox(width: 5),
+        const SizedBox(width: 3),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

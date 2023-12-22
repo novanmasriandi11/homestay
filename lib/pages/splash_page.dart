@@ -1,3 +1,5 @@
+// ignore_for_file: sized_box_for_whitespace
+
 import 'package:flutter/material.dart';
 import 'package:homestay/pages/home_page.dart';
 import 'package:homestay/theme.dart';
